@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// CONSTANTES Y REPRESENTACIÓN DEL GRAFO DE DISTANCIAS 
+// CONSTANTES Y REPRESENTACIÓN DEL GRAFO DE DISTANCIAS
 
 const int N = 10; // Cantidad total de Ciudades (Nodos) en el grafo
 
@@ -27,7 +27,7 @@ string ciudades[N] = {
    0 representa la distancia a la misma ciudad; INT_MAX (teoricamente infinto) indica ausencia de conexión directa
    entre ciudades (Nodos) . */
 int grafo[N][N] =
-{            //   0   //    1  //   2   //   3   //   4  //    5  //   6   //   7   //   8   //   9       
+{            //   0   //    1  //   2   //   3   //   4  //    5  //   6   //   7   //   8   //   9
     /* 0 */  {       0,      67, INT_MAX,    160 ,     169, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX },
     /* 1 */  {      67,       0,      63,     139, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX },
     /* 2 */  { INT_MAX,      63,       0,     103, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX },
@@ -49,11 +49,11 @@ void mostrarCiudades() {
         cout << "  " << i << " -> " << " " << ciudades[i] << endl;
 }
 
-// Recorre la matriz de adyacencia e imprime las conexiones directas y sus distancias en kilometros 
+// Recorre la matriz de adyacencia e imprime las conexiones directas y sus distancias en kilometros
 void conexionesCiudades() {
     cout << "\n Conexiones Directas por ciudad\n";
-    for (int i = 0; i < N; i++) { //Recorre la matriz ciudades[N] 
-        cout << " " << i << " ._" << ciudades[i] << endl; 
+    for (int i = 0; i < N; i++) { //Recorre la matriz ciudades[N]
+        cout << " " << i << " ._" << ciudades[i] << endl;
         for (int j = 0; j < N; j++) { //Antes de pasar a la siguiente posicion, recorre grafo[N][N]
             // Filtra aristas válidas, descartando infinito INT_MAX y distancia 0.
             if (grafo[i][j] != INT_MAX && grafo[i][j] > 0) //Imprime unicamente las ciudades que tienen conexion directa.
@@ -192,8 +192,8 @@ void Dijkstra(int origen, int destino) {
 // Funcion principal y menu
 
 int main() {
-    int origen, destino;
-    short Opcion; // Short para ahorrar memoria
+    int origen, destino; // Variables para almacenar los indicadores 0-9
+    int Opcion; // Variable para seleccionar en el menu que se desea hacer.
     cout << " \n Bienvenido a Explorador de rutas de la Peninsula de Yucatan\n";
 
     for (int i = 0; i < INT_MAX; i++) { // Uso de INT_MAX para que se pueda hacer uso del menu en multiples ocasiones.
@@ -202,10 +202,14 @@ int main() {
         cout << "Opcion 2. Recorrido en anchura (BFS)\n ";
         cout << "Opcion 3. Recorrido en profundidad (DFS)\n ";
         cout << "Opcion 4. Encontrar la ruta de menor distancia (Dijkstra)\n ";
-        cout << "Opcion 5. Terminar y cerrar aplicacion\n "; //Opcion para terminar la aplicacion 
+        cout << "Opcion 5. Terminar y cerrar aplicacion\n "; //Opcion para terminar la aplicacion
         cout << " ** Valores validos 1-5 **\n";
         cout << "\n Mi opcion seleccionada es(1-5): ";
-        cin >> Opcion;
+        cin >> Opcion; // Usuario ingresa lo que desea consultar
+                if (cin.fail()) { //validacion de entrada para evitar ciclo infinito
+                cin.clear(); //Limpia el cin para que no entre en ciclo infito
+                cin.ignore(1000, '\n'); // Vacia la memoria temporal del teclado hasta que se teclee enter
+                }
 
         switch (Opcion) {
             case 1:
@@ -217,12 +221,16 @@ int main() {
             case 2:
                 cout << "\n Has seleccionado recorrido en anchura.\n";
                 mostrarCiudades();
-                cout << "\nIndique una ciudad de origen (0-9): ";
+                cout << "\n Indique una ciudad de origen (0-9): ";
                 cin >> origen;
-
-                if (origen < 0 || origen >= N) { //Filtro de valores validos
+                if (cin.fail()) { //validacion de entrada para evitar ciclo infinito
+                cin.clear(); //Limpia la entrada para mas adelante
+                cin.ignore(1000, '\n'); // Vacia la memoria temporal del teclado hasta que se teclee enter
+                origen = -1; //Se asigna -1 para que falle la validacion de rango
+                }
+                if (origen < 0 || origen >= N) { //Filtro de valores validos del rango 0-9
                     cout << "\n Seleccion invalida." << endl;
-                    return 1;
+                    break;// Termina el switch, regresando al for
                 }
                 BFS(origen); // Funcion de recorrido en anchura
                 break;
@@ -232,10 +240,15 @@ int main() {
                 mostrarCiudades();
                 cout << "\n Indique una ciudad de origen (0-9): ";
                 cin >> origen;
+                if (cin.fail()) { //validacion de entrada para evitar ciclo infinito
+                cin.clear();
+                cin.ignore(1000, '\n'); // Vacia la memoria temporal del teclado hasta que se teclee enter
+                origen = -1; //Se asigna -1 para que falle la validacion de rango
+                }
 
-                if (origen < 0 || origen >= N) { // Filtro de valores validos 
+                if (origen < 0 || origen >= N) { // Filtro de valores validos
                     cout << "\n Seleccion invalida." << endl;
-                    return 1;
+                    break;
                 }
                 DFS(origen);// Funcion de recorrido en profundidad
                 break;
@@ -245,20 +258,33 @@ int main() {
                 mostrarCiudades();
                 cout << "\n Indique Ciudad de origen (0-9): ";
                 cin >> origen;
+                if (cin.fail()) {
+                cin.clear();
+                cin.ignore(1000, '\n');
+                origen = -1; //Se asigna -1 para que falle la validacion de rango
+                }
                 cout << " Indique Ciudad de destino (0-9): ";
                 cin >> destino;
+                if (cin.fail()) { //validacion de entrada para evitar ciclo infinito
+                cin.clear();
+                cin.ignore(1000, '\n');
+                destino = -1; //Se asigna -1 para que falle la validacion de rango
+                }
 
                 if (origen < 0 || origen >= N || destino < 0 || destino >= N) {
                     cout << "\n Seleccion invalida." << endl;
-                    return 1;
+                    break;
                 }
-                Dijkstra(origen, destino); //Funcion de ruta de menor distancia 
+                Dijkstra(origen, destino); //Funcion de ruta de menor distancia
                 break;
 
             case 5: // Terminar la aplicacion tras este case
-                cout << "\n\n Cerro la Aplicacion "; 
+                cout << "\n\n Cerro la Aplicacion ";
                 return 0;
                 break;
+
+            default: cout<<"\n\n Opcion no existente\n\n";
+                break; // Imprime esto cuando el valor del menu no es permitido.
         }
     }
 
