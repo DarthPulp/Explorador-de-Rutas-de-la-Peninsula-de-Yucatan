@@ -198,11 +198,11 @@ int main() {
 
     for (int i = 0; i < INT_MAX; i++) { // Uso de INT_MAX para que se pueda hacer uso del menu en multiples ocasiones.
         cout << "\n Seleccione que desea consultar\n";
-        cout << " Opción 1. Mostrar las ciudades y sus conexiones\n ";
-        cout << "Opción 2. Recorrido en anchura (BFS)\n ";
-        cout << "Opción 3. Recorrido en profundidad (DFS)\n ";
-        cout << "Opción 4. Encontrar la ruta de menor distancia (Dijkstra)\n ";
-        cout << "Opción 5. Terminar y cerrar aplicacion\n "; //Opcion para terminar la aplicacion 
+        cout << " Opcion 1. Mostrar las ciudades y sus conexiones\n ";
+        cout << "Opcion 2. Recorrido en anchura (BFS)\n ";
+        cout << "Opcion 3. Recorrido en profundidad (DFS)\n ";
+        cout << "Opcion 4. Encontrar la ruta de menor distancia (Dijkstra)\n ";
+        cout << "Opcion 5. Terminar y cerrar aplicacion\n "; //Opcion para terminar la aplicacion 
         cout << " ** Valores validos 1-5 **\n";
         cout << "\n Mi opcion seleccionada es(1-5): ";
         cin >> Opcion;
@@ -256,7 +256,7 @@ int main() {
                 break;
 
             case 5: // Terminar la aplicacion tras este case
-                cout << "\n\n Cerró la Aplicacion "; 
+                cout << "\n\n Cerro la Aplicacion "; 
                 return 0;
                 break;
         }
